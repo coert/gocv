@@ -47,3 +47,27 @@ func (c CalibCBFlag) String() string {
 	}
 	return ""
 }
+
+func (c SolvePnPFlag) String() string {
+	switch c {
+	case SolvePnPIterative:
+		return "solve-pnp-iterative"
+	case SolvePnPEPnP:
+		return "solve-pnp-epnp"
+	case SolvePnPP3P:
+		return "solve-pnp-p3p"
+	case SolvePnPDLS:
+		return "solve-pnp-dls"
+	case SolvePnPUPnP:
+		return "solve-pnp-upnp"
+	case SolvePnPAP3P:
+		return "solve-pnp-ap3p"
+	case SolvePnPIPpE:
+		return "solve-pnp-ippe"
+	case SolvePnPIPpESquare:
+		return "solve-pnp-ippe-square"
+	case SolvePnPSqPnP:
+		return "solve-pnp-sqpnp"
+	}
+	return ""
+}

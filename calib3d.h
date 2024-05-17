@@ -37,6 +37,8 @@ void TriangulatePoints(Mat projMatr1, Mat projMatr2, Point2fVector projPoints1, 
 void ConvertPointsFromHomogeneous(Mat src, Mat dst);
 void Rodrigues(Mat src, Mat dst);
 bool SolvePnP(Point3fVector objectPoints, Point2fVector imagePoints, Mat cameraMatrix, Mat distCoeffs, Mat rvec, Mat tvec, bool useExtrinsicGuess, int flags);
+bool SolvePnPRansac(Point3fVector objectPoints, Point2fVector imagePoints, Mat cameraMatrix, Mat distCoeffs, Mat rvec, Mat tvec, bool useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence, Mat inliers, int flags);
+void ProjectPoints(Point3fVector objectPoints, Mat rvec, Mat tvec, Mat cameraMatrix, Mat distCoeffs, Point2fVector imagePoints, Mat jacobian, double aspectRatio);
 #ifdef __cplusplus
 }
 #endif

@@ -922,3 +922,54 @@ func TestSolvePnP(t *testing.T) {
 		return
 	}
 }
+
+func TestSolvePnPRansac(t *testing.T) {
+	pts := []Point3f{
+		{10.0, 10.0, 0.1},
+		{10.0, 20.0, 1.0},
+		{20.5, 21.5, 2.0},
+		{10.0, 20.0, 1.0},
+	}
+
+	objectPointsVector := NewPoint3fVectorFromPoints(pts)
+	defer objectPointsVector.Close()
+
+	pts2 := []Point2f{
+		{10.0, 10.0},
+		{10.0, 20.0},
+		{20.5, 21.5},
+		{25.5, 30.5},
+	}
+
+	imagePointsVector := NewPoint2fVectorFromPoints(pts2)
+	defer imagePointsVector.Close()
+
+	cameraMatrix := Eye(3, 3, MatTypeCV64F)
+	defer cameraMatrix.Close()
+	distCoeffs := NewMat()
+	defer distCoeffs.Close()
+	rvecs := NewMat()
+	defer rvecs.Close()
+	tvecs := NewMat()
+	defer tvecs.Close()
+	inliers := NewMat()
+	defer inliers.Close()
+
+	SolvePnPRansac(objectPointsVector, imagePointsVector, cameraMatrix, distCoeffs,
+		&rvecs, &tvecs, false, 100, 8, 0.99, &inliers, 0)
+
+	if rvecs.Empty() {
+		t.Error("rvecs result is empty")
+		return
+	}
+
+	if tvecs.Empty() {
+		t.Error("tvecs result is empty")
+		return
+	}
+
+	if inliers.Empty() {
+		t.Error("inliers result is empty")
+		return
+	}
+}

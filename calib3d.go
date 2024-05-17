@@ -320,10 +320,32 @@ func Rodrigues(src Mat, dst *Mat) {
 	C.Rodrigues(src.p, dst.p)
 }
 
+type SolvePnPFlag int
+
+const (
+	SolvePnPIterative SolvePnPFlag = 1 << iota
+	SolvePnPEPnP
+	SolvePnPP3P
+	SolvePnPDLS
+	SolvePnPUPnP
+	SolvePnPAP3P
+	SolvePnPIPpE
+	SolvePnPIPpESquare
+	SolvePnPSqPnP
+)
+
 // SolvePnP finds an object pose from 3D-2D point correspondences.
-//
+
 // For further details, please see:
 // https://docs.opencv.org/4.0.0/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d
-func SolvePnP(objectPoints Point3fVector, imagePoints Point2fVector, cameraMatrix, distCoeffs Mat, rvec, tvec *Mat, useExtrinsicGuess bool, flags int) bool {
+func SolvePnP(objectPoints Point3fVector, imagePoints Point2fVector, cameraMatrix, distCoeffs Mat, rvec, tvec *Mat, useExtrinsicGuess bool, flags SolvePnPFlag) bool {
 	return bool(C.SolvePnP(objectPoints.p, imagePoints.p, cameraMatrix.p, distCoeffs.p, rvec.p, tvec.p, C.bool(useExtrinsicGuess), C.int(flags)))
+}
+
+func SolvePnPRansac(objectPoints Point3fVector, imagePoints Point2fVector, cameraMatrix, distCoeffs Mat, rvec, tvec *Mat, useExtrinsicGuess bool, iterationsCount int, reprojectionError float32, confidence float64, inliers *Mat, flags SolvePnPFlag) bool {
+	return bool(C.SolvePnPRansac(objectPoints.p, imagePoints.p, cameraMatrix.p, distCoeffs.p, rvec.p, tvec.p, C.bool(useExtrinsicGuess), C.int(iterationsCount), C.float(reprojectionError), C.double(confidence), inliers.p, C.int(flags)))
+}
+
+func ProjectPoints(objectPoints Point3fVector, rvec, tvec, cameraMatrix, distCoeffs Mat, imagePoints Point2fVector, jacobian *Mat, aspectRatio float64) {
+	C.ProjectPoints(objectPoints.p, rvec.p, tvec.p, cameraMatrix.p, distCoeffs.p, imagePoints.p, jacobian.p, C.double(aspectRatio))
 }
