@@ -118,7 +118,7 @@ func EstimateNewCameraMatrixForUndistortRectify(k, d Mat, imgSize image.Point, r
 //
 // For further details, please see:
 // https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga7dfb72c9cf9780a347fbe3d1c47e5d5a
-func InitUndistortRectifyMap(cameraMatrix Mat, distCoeffs Mat, r Mat, newCameraMatrix Mat, size image.Point, m1type int, map1 Mat, map2 Mat) {
+func InitUndistortRectifyMap(cameraMatrix Mat, distCoeffs Mat, r Mat, newCameraMatrix Mat, size image.Point, m1type int, map1 *Mat, map2 *Mat) {
 	sz := C.struct_Size{
 		width:  C.int(size.X),
 		height: C.int(size.Y),

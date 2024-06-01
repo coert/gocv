@@ -1870,7 +1870,7 @@ func DrawContoursWithParams(img *Mat, contours PointsVector, contourIdx int, c c
 //
 // For further details, please see:
 // https://docs.opencv.org/master/da/d54/group__imgproc__transform.html#gab75ef31ce5cdfb5c44b6da5f3b908ea4
-func Remap(src Mat, dst, map1, map2 *Mat, interpolation InterpolationFlags, borderMode BorderType, borderValue color.RGBA) {
+func Remap(src Mat, dst *Mat, map1, map2 Mat, interpolation InterpolationFlags, borderMode BorderType, borderValue color.RGBA) {
 	bv := C.struct_Scalar{
 		val1: C.double(borderValue.B),
 		val2: C.double(borderValue.G),
